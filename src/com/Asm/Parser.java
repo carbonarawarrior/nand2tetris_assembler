@@ -24,11 +24,12 @@ public class Parser {
 	    while (fin.hasNextLine()) {
 		line = fin.nextLine();
 		if (line.indexOf("//") != -1) {
-		    int commentIndex = line.indexOf("//");
-		    System.out.println(commentIndex);
-		    line = line.substring(commentIndex);
+		    line = line.substring(0, line.indexOf("//")).trim();
 		}
-		this.symbols.add(line);
+
+		if (!line.isEmpty()) {
+		    this.symbols.add(line);
+		}
 	    }
 	} catch (Exception e) {
 	    System.out.println("IO Error");
