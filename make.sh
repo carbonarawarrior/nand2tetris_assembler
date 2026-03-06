@@ -2,6 +2,7 @@
 
 JAVAC=$(command -v javac)
 
+
 if [ -z "$JAVAC" ]; then
     echo "no javac found"
     exit
