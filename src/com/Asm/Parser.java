@@ -74,10 +74,6 @@ public class Parser {
     }
 
     public String jump() {
-	//i guess we have to check if its a valid symbol or not
-	//return void if invalid????
-	
-
 	int semiIndex = this.symbols.get(this.currentLine).indexOf(";");
 	String jumpStr = null;
 	if (semiIndex != -1) {
@@ -97,15 +93,80 @@ public class Parser {
 	    case "JMP":
 		return jumpStr;
 	    default:
-		return "SYNTAX ERROR";
+		return jumpStr;
 	}
     }
 
     public String dest() {
+	int eqIndex= this.symbols.get(this.currentLine).indexOf("=");
+	int semiIndex = this.symbols.get(this.currentLine).indexOf(";");
+	String destString = null;
+	if (eqIndex != -1) {
+	    destString = this.symbols.get(this.currentLine).substring(0, eqIndex);
+	}
+	if (semiIndex != -1 && eqIndex != -1) {
+	    destString = this.symbols.get(this.currentLine).substring(0, semiIndex);
+	}
 
+	if (eqIndex == -1 && semiIndex == -1) {
+	    return null;
+	}
+	switch (destString.trim()) {
+	    case "M":
+	    case "D":
+	    case "MD":
+	    case "A":
+	    case "AM":
+	    case "AD":
+	    case "AMD":
+		return destString.trim();
+	}
+	return "DEST ERROR";
     }
     public String comp() {
+	int eqIndex= this.symbols.get(this.currentLine).indexOf("=");
+	int semiIndex = this.symbols.get(this.currentLine).indexOf(";");
+	String compString = null;
+	if (eqIndex != -1) {
+	    compString = this.symbols.get(this.currentLine).substring(1+eqIndex);
+	}
+	if (semiIndex != -1) {
+	    compString = this.symbols.get(this.currentLine).substring(0, semiIndex);
+	}
 
+	switch (compString.trim()) {
+	    case "0":
+	    case "1":
+	    case "-1":
+	    case "D":
+	    case "A":
+	    case "!D":
+	    case "!A":
+	    case "-D":
+	    case "-A":
+	    case "D+1":
+	    case "A+1":
+	    case "D-1":
+	    case "A-1":
+	    case "D+A":
+	    case "D-A":
+	    case "A-D":
+	    case "D&A":
+	    case "D|A":
+	    case "M":
+	    case "!M":
+	    case "-M":
+	    case "M+1":
+	    case "M-1":
+	    case "D+M":
+	    case "D-M":
+	    case "M-D":
+	    case "D&M":
+	    case "D|M":
+		return compString.trim();
+	    default:
+		return "COMP ERROR";
+	}
     }
     //non nand2tetris methods for debugging
     public ArrayList<String> getSymbols() {

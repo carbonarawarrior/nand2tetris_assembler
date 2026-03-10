@@ -22,5 +22,5 @@ if [ "$1" = "run" ]; then
 	exit
     fi
 
-    java -cp "$OUT" "$PKG".Main
+    java -cp "$OUT" "$PKG".Main $2
 fi
