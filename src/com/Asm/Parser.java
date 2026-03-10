@@ -2,6 +2,7 @@ package com.Asm;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
+import java.io.IOException;
 
 /*
  * This object should read a .asm file and kick out
@@ -22,37 +23,33 @@ public class Parser {
     private ArrayList<String> types;
     private int currentLine;
 
-    public Parser(File f) {
+    public Parser(File f) throws IOException {
 	this.asmFile = f;
 	this.symbols = new ArrayList<String>();
 	this.types   = new ArrayList<String>();
 	this.currentLine = -1;
 
-	try {
-	    Scanner fin = new Scanner(this.asmFile);
-	    String line;
+        Scanner fin = new Scanner(this.asmFile);
+        String line;
 
-	    while (fin.hasNextLine()) {
-		line = fin.nextLine();
-		if (line.indexOf("//") != -1) {
-		    line = line.substring(0, line.indexOf("//")).trim();
-		}
+	while (fin.hasNextLine()) {
+	    line = fin.nextLine();
+	    if (line.indexOf("//") != -1) {
+		line = line.substring(0, line.indexOf("//")).trim();
+	    }
 
-		if (!line.isEmpty()) {
-		    this.symbols.add(line);
-		    if (line.contains("@")) {
-			this.types.add("A_COMMAND");
-		    } else if (line.contains("(") && line.contains(")")) {
-			this.types.add("L_COMMAND");
-		    } else {
-			this.types.add("C_COMMAND");
-		    }
-
+	    if (!line.isEmpty()) {
+		this.symbols.add(line);
+		if (line.contains("@")) {
+		    this.types.add("A_COMMAND");
+		} else if (line.contains("(") && line.contains(")")) {
+		    this.types.add("L_COMMAND");
+		} else {
+		    this.types.add("C_COMMAND");
 		}
 
 	    }
-	} catch (Exception e) {
-	    System.out.println("IO Error");
+
 	}
     }
 
