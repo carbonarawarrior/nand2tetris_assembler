@@ -56,6 +56,15 @@ public class Parser {
 	}
     }
 
+    public String symbol() {
+	if (this.commandType().equals("A_COMMAND")) {
+	    return this.symbols.get(this.currentLine).substring(1);
+	}
+	if (this.commandType().equals("L_COMMAND")) {
+	    return this.symbols.get(this.currentLine).substring(1, this.symbols.get(this.currentLine).length()-2);
+	}
+	return null;
+    }
     
     public boolean hasMoreCommands() {
 	if (this.currentLine < this.symbols.size() - 1) {
@@ -81,7 +90,7 @@ public class Parser {
 	}
 
 	if (semiIndex == -1) {
-	    return null;
+	    return "";
 	}
 	switch (jumpStr) {
 	    case "JGT":
@@ -92,24 +101,19 @@ public class Parser {
 	    case "JLE":
 	    case "JMP":
 		return jumpStr;
-	    default:
-		return jumpStr;
 	}
+	return null;
     }
 
     public String dest() {
 	int eqIndex= this.symbols.get(this.currentLine).indexOf("=");
-	int semiIndex = this.symbols.get(this.currentLine).indexOf(";");
 	String destString = null;
 	if (eqIndex != -1) {
 	    destString = this.symbols.get(this.currentLine).substring(0, eqIndex);
 	}
-	if (semiIndex != -1 && eqIndex != -1) {
-	    destString = this.symbols.get(this.currentLine).substring(0, semiIndex);
-	}
 
-	if (eqIndex == -1 && semiIndex == -1) {
-	    return null;
+	if (eqIndex == -1) {
+	    return "";
 	}
 	switch (destString.trim()) {
 	    case "M":
@@ -121,7 +125,7 @@ public class Parser {
 	    case "AMD":
 		return destString.trim();
 	}
-	return "DEST ERROR";
+	return null;
     }
     public String comp() {
 	int eqIndex= this.symbols.get(this.currentLine).indexOf("=");
@@ -165,7 +169,7 @@ public class Parser {
 	    case "D|M":
 		return compString.trim();
 	    default:
-		return "COMP ERROR";
+		return null;
 	}
     }
     //non nand2tetris methods for debugging
