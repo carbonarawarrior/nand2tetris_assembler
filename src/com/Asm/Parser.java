@@ -133,8 +133,7 @@ public class Parser {
 	String compString = null;
 	if (eqIndex != -1) {
 	    compString = this.symbols.get(this.currentLine).substring(1+eqIndex);
-	}
-	if (semiIndex != -1) {
+	} else if (semiIndex != -1) {
 	    compString = this.symbols.get(this.currentLine).substring(0, semiIndex);
 	}
 

@@ -48,6 +48,10 @@ public class Assembler {
 	if (binnum.length() > 16) {
 	    binnum = binnum.substring(0,17);
 	}
+
+	while (binnum.length() < 16) {
+	    binnum = "0" + binnum;
+	}
 	return binnum;
     }
     public boolean hasMoreCommands() {
