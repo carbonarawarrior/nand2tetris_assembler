@@ -5,6 +5,7 @@ Written in java cuz i need to practice for AP test.
 
 
 You can build on a unix-like system by running
+
 `./make.sh`
 
 or
@@ -12,4 +13,13 @@ or
 `./make.sh jar`
 
 
-if you want a new jar file
+if you want a new jar file.
+
+# Running
+
+run the supplied jar file with
+
+`java -jar Assembler.jar [ARGS]`
+
+right now you can supply -o to specify where you want to write out.
+otherwise it just takes your file and replaces .asm with .hack.
