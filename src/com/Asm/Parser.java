@@ -61,7 +61,8 @@ public class Parser {
 		    this.symbols.add(line.trim());
 		    lineNum++;
 		} else if (line.contains("(") && line.contains(")")) {
-		    this.symbolTable.addEntry(line.trim().substring(1, line.length()-2), lineNum);
+		    System.out.println(lineNum);
+		    this.symbolTable.addEntry("@" + line.trim().substring(1, line.length()-2), 1+lineNum);
 		} else {
 		    this.types.add("C_COMMAND");
 		    this.symbols.add(line.trim());
@@ -74,7 +75,7 @@ public class Parser {
     public String symbol() {
 	if (this.symbols.get(this.currentLine).trim().substring(1).matches("\\d+")) {
 	    return this.symbols.get(this.currentLine).trim().substring(1);
-	} else if (this.symbolTable.contains(this.symbols.get(currentLine).trim())) {
+	} else if (this.symbolTable.contains(this.symbols.get(this.currentLine).trim())) {
 	    return "" + this.symbolTable.GetAddress(this.symbols.get(this.currentLine).trim());
 	} else {
 	    this.symbolTable.addEntry(this.symbols.get(this.currentLine).trim());
