@@ -22,5 +22,18 @@ if [ "$1" = "run" ]; then
 	exit
     fi
 
-    java -cp "$OUT" "$PKG".Main $2
+    $JAVA -cp "$OUT" "$PKG".Main $2
+fi
+
+
+
+if [ "$1" = "jar" ]; then
+    JAR=$(command -v jar)
+    echo "Main-Class: $PKG.Main" > "$OUT/MANIFEST.MF"
+    if [ -z "$JAR" ]; then
+	echo "no jar found"
+	exit
+    fi
+
+    $JAR cfm "Assembler.jar" "$OUT/MANIFEST.MF" -C "$OUT" com
 fi

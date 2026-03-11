@@ -22,16 +22,33 @@ public class Parser {
     private ArrayList<String> symbols;
     private ArrayList<String> types;
     private int currentLine;
+    private SymbolTable symbolTable;
 
+
+    //public Parser(File f, int i) {
+	//try {
+	    //Parser p = new Parser(f);
+	    //this.asmFile = p.asmFile;
+	    //this.symbols = p.symbols;
+	    //this.types   = p.types;  
+	    //this.symbolTable = p.symbolTable;
+	    //this.currentLine = p.currentLine;
+//
+	//} catch (Exception e) {
+	    //System.out.println("oop");
+	//}
+    //}
     public Parser(File f) throws IOException {
 	this.asmFile = f;
 	this.symbols = new ArrayList<String>();
 	this.types   = new ArrayList<String>();
+	this.symbolTable = new SymbolTable();
 	this.currentLine = -1;
 
         Scanner fin = new Scanner(this.asmFile);
         String line;
 
+	int lineNum = 0;
 	while (fin.hasNextLine()) {
 	    line = fin.nextLine();
 	    if (line.indexOf("//") != -1) {
@@ -39,28 +56,30 @@ public class Parser {
 	    }
 
 	    if (!line.isEmpty()) {
-		this.symbols.add(line);
 		if (line.contains("@")) {
 		    this.types.add("A_COMMAND");
+		    this.symbols.add(line.trim());
+		    lineNum++;
 		} else if (line.contains("(") && line.contains(")")) {
-		    this.types.add("L_COMMAND");
+		    this.symbolTable.addEntry(line.trim(), lineNum);
 		} else {
 		    this.types.add("C_COMMAND");
+		    this.symbols.add(line.trim());
+		    lineNum++;
 		}
-
 	    }
-
 	}
     }
 
     public String symbol() {
-	if (this.commandType().equals("A_COMMAND")) {
-	    return this.symbols.get(this.currentLine).substring(1);
+	if (this.symbols.get(this.currentLine).trim().substring(1).matches("\\d+")) {
+	    return this.symbols.get(this.currentLine).trim().substring(1);
+	} else if (this.symbolTable.contains(this.symbols.get(currentLine).trim())) {
+	    return "" + this.symbolTable.GetAddress(this.symbols.get(this.currentLine).trim());
+	} else {
+	    this.symbolTable.addEntry(this.symbols.get(this.currentLine).trim());
+	    return "" + this.symbolTable.GetAddress(this.symbols.get(this.currentLine).trim());
 	}
-	if (this.commandType().equals("L_COMMAND")) {
-	    return this.symbols.get(this.currentLine).substring(1, this.symbols.get(this.currentLine).length()-2);
-	}
-	return null;
     }
     
     public boolean hasMoreCommands() {
@@ -73,6 +92,15 @@ public class Parser {
 
     public void advance() {
 	this.currentLine++;
+	//System.out.println(this.symbols.get(this.currentLine));
+	//System.out.println(this.types.get(this.currentLine));
+	//System.out.println(this.currentLine);
+    }
+
+    //not a nand2tetris method but very useful for the double loop for resolving labels
+    //i dont wanna create another list in Assembler for basically no reason
+    public void reset() {
+	this.currentLine = -1;
     }
 
     public String commandType() {

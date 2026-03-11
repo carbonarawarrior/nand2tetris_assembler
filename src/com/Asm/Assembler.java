@@ -21,10 +21,12 @@ public class Assembler {
 
     private Parser parser;
     private Code code;
+    private SymbolTable symbols;
 
     public Assembler(Parser p, Code c) {
 	this.parser = p;
 	this.code = c;
+//	this.symbols = s;
     }
 
     private String decToBin(int decnum) {
