@@ -61,7 +61,7 @@ public class Parser {
 		    this.symbols.add(line.trim());
 		    lineNum++;
 		} else if (line.contains("(") && line.contains(")")) {
-		    this.symbolTable.addEntry(line.trim(), lineNum);
+		    this.symbolTable.addEntry(line.trim().substring(1, line.length()-2), lineNum);
 		} else {
 		    this.types.add("C_COMMAND");
 		    this.symbols.add(line.trim());

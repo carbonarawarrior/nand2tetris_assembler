@@ -30,6 +30,9 @@ public class Assembler {
     }
 
     private String decToBin(int decnum) {
+	if (decnum == 0) {
+	    return "0000000000000000";
+	}
 	String binnum = "";
 	int r;
 	while (decnum > 1) {
