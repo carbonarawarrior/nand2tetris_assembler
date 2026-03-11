@@ -1,4 +1,4 @@
-## Assembler
+# Assembler
 
 Assembler for the hack assembly language specified in nand2tetris.
 Written in java cuz i need to practice for AP test.
@@ -15,7 +15,7 @@ or
 
 if you want a new jar file.
 
-# Running
+## Running
 
 run the supplied jar file with
 
