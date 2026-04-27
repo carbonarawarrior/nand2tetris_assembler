@@ -10,6 +10,10 @@ package com.Asm;
  *
  */
 
+//all of these case statements couldve used a hashmap for MUCH better readability
+//i didnt do this because i didnt think of it when i was coding it
+//
+//we arent gonna extend the hack instruction set so this is okay (cope btw)
 public class Code {
 
 

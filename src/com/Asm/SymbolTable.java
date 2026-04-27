@@ -44,12 +44,10 @@ public class SymbolTable {
 	this.memAddr = 16;
     }
 
-    //im changing this, memory addresses for symbols are now handled by this symbol table
     public void addEntry(String symbol) {
 	this.table.put(symbol, this.memAddr);
 	memAddr++;
     }
-    //i jst realized i needed the old func anyways . . .
     public void addEntry(String symbol, int address) {
 	this.table.put(symbol, address);
     }

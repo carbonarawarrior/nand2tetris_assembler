@@ -19,25 +19,18 @@ import java.io.IOException;
 public class Parser {
 
     private File asmFile;
+    //essentially we have two arrays
+    //one like [@5, D=A, M=D, (END), @END, 0;JMP]
     private ArrayList<String> symbols;
+    //another like
+    //[A_COMMAND, C_COMMAND, C_COMMAND, L_COMMAND, A_COMMAND, C_COMMAND]
     private ArrayList<String> types;
+
+    //this setup jst makes it easier to get the type of each command
     private int currentLine;
     private SymbolTable symbolTable;
 
 
-    //public Parser(File f, int i) {
-	//try {
-	    //Parser p = new Parser(f);
-	    //this.asmFile = p.asmFile;
-	    //this.symbols = p.symbols;
-	    //this.types   = p.types;  
-	    //this.symbolTable = p.symbolTable;
-	    //this.currentLine = p.currentLine;
-//
-	//} catch (Exception e) {
-	    //System.out.println("oop");
-	//}
-    //}
     public Parser(File f) throws IOException {
 	this.asmFile = f;
 	this.symbols = new ArrayList<String>();
@@ -61,7 +54,6 @@ public class Parser {
 		    this.symbols.add(line.trim());
 		    lineNum++;
 		} else if (line.contains("(") && line.contains(")")) {
-		    System.out.println(lineNum);
 		    this.symbolTable.addEntry("@" + line.trim().substring(1, line.length()-2), 1+lineNum);
 		} else {
 		    this.types.add("C_COMMAND");
@@ -73,11 +65,24 @@ public class Parser {
     }
 
     public String symbol() {
+	//this if statement checks if the second number is a digit
+	//example:
+	//
+	//@5
+	//
+	//would match
 	if (this.symbols.get(this.currentLine).trim().substring(1).matches("\\d+")) {
 	    return this.symbols.get(this.currentLine).trim().substring(1);
+	    //this one checks if an @ is in the symbol table
+	    //example:
+	    //
+	    //@symbol
+	    //
+	    //this is done so we can resolve labels
 	} else if (this.symbolTable.contains(this.symbols.get(this.currentLine).trim())) {
 	    return "" + this.symbolTable.GetAddress(this.symbols.get(this.currentLine).trim());
 	} else {
+	    //this one adds the symbol to the symbol and treats it as a variable
 	    this.symbolTable.addEntry(this.symbols.get(this.currentLine).trim());
 	    return "" + this.symbolTable.GetAddress(this.symbols.get(this.currentLine).trim());
 	}
@@ -93,16 +98,8 @@ public class Parser {
 
     public void advance() {
 	this.currentLine++;
-	//System.out.println(this.symbols.get(this.currentLine));
-	//System.out.println(this.types.get(this.currentLine));
-	//System.out.println(this.currentLine);
     }
 
-    //not a nand2tetris method but very useful for the double loop for resolving labels
-    //i dont wanna create another list in Assembler for basically no reason
-    public void reset() {
-	this.currentLine = -1;
-    }
 
     public String commandType() {
 	return types.get(currentLine);
@@ -118,6 +115,7 @@ public class Parser {
 	if (semiIndex == -1) {
 	    return "";
 	}
+	//this is the first of the switch spam
 	switch (jumpStr) {
 	    case "JGT":
 	    case "JEQ":
@@ -196,14 +194,6 @@ public class Parser {
 	    default:
 		return null;
 	}
-    }
-    //non nand2tetris methods for debugging
-    public ArrayList<String> getSymbols() {
-	return this.symbols;
-    }
-
-    public ArrayList<String> getTypes() {
-	return this.types;
     }
 
 }

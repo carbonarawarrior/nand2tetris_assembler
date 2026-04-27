@@ -20,7 +20,7 @@ public class Main {
 	//i want to be able to add some options so we have to loop through our array to do so
 	for (int i = 0; i < args.length; i++) {
 	    switch (args[i]) {
-		case "-o":
+		case "-o": //i put a case here in case i for somereason wanted to add more options into the future
 		    if (i + 1 >= args.length || args[i + 1].charAt(0) == '-') {
 			System.err.println("You must provide a name to write out to!");
 			System.exit(-1);
@@ -50,6 +50,7 @@ public class Main {
 	    hackFileName = asmFileName.replace(".asm", ".hack");
 	}
 
+	//writing to out is how we actually write to the asm file
 	try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(hackFileName)))){
 	    Parser p = new Parser(new File(asmFileName));
 	    Code c = new Code();

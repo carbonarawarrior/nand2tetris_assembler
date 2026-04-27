@@ -26,9 +26,10 @@ public class Assembler {
     public Assembler(Parser p, Code c) {
 	this.parser = p;
 	this.code = c;
-//	this.symbols = s;
     }
 
+    //method to turn a decimal number to a string of binary
+    //useful for some translations
     private String decToBin(int decnum) {
 	if (decnum == 0) {
 	    return "0000000000000000";
@@ -59,10 +60,12 @@ public class Assembler {
 	}
 	return binnum;
     }
+    //lit a wrapper to the parser function
     public boolean hasMoreCommands() {
 	return this.parser.hasMoreCommands();
     }
 
+    //lit a wrapper to the parser function
     public void advance() {
 	this.parser.advance();
     }
@@ -81,9 +84,9 @@ public class Assembler {
 	    return this.decToBin(Integer.valueOf(this.parser.symbol()));
 	} else if (type.equals("L_COMMAND")) {
 	    //placeholder, we dont need to do this yet
+	    //wow we really didnt need to implement this
 	    return "";
 	}
-
 	return "syntax error";
     }
 
